@@ -1,5 +1,5 @@
 [user]
-	name = Takahisa Mizuno
+	name = ororog
 	email = ororog@gmail.com
 [filter "lfs"]
 	clean = git-lfs clean %f
