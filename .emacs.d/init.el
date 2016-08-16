@@ -23,6 +23,7 @@
    exec-path-from-shell
    rubocop
    flycheck
+   scss-mode
    ))
 
 (unless package-archive-contents
@@ -30,6 +31,7 @@
 
 ;; Global settings
 (tool-bar-mode -1)
+(global-unset-key "\C-z")
 (setq-default show-trailing-whitespace t)
 (show-paren-mode)
 (set-background-color "Black")
@@ -122,7 +124,7 @@
   (remove-hook 'before-save-hook 'enh-ruby-mode-set-encoding t))
 (add-hook 'enh-ruby-mode-hook 'remove-enh-magic-comment)
 
-;; Projectile
+;; git setting
 (custom-set-variables
  '(projectile-globally-ignored-file-suffixes '("png" "jpg"))
  '(projectile-sort-order 'recently-active))
@@ -131,10 +133,25 @@
 (defun web-mode-hooks ()
   "Hooks for web mode."
   (set-face-background 'web-mode-current-element-highlight-face "yellow")
+  (font-lock-add-keywords
+   'nil '(("^[^\n]\\{100\\}\\(.*\\)$" 1 font-lock-warning-face t)) t)
   (custom-set-variables
    '(web-mode-enable-current-element-highlight t)
    '(web-mode-enable-auto-indentation nil)
    '(web-mode-code-indent-offset 8)'
    '(web-mode-enable-auto-closing t)))
 (add-to-list 'auto-mode-alist '("\\.erb\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.html\\'" . web-mode))
 (add-hook 'web-mode-hook 'web-mode-hooks)
+
+;; scss
+(autoload 'scss-mode "scss-mode")
+(defun scss-mode-hooks ()
+  "Hooks for scss mode."
+  (setq-default css-indent-offset 2)
+  (custom-set-variables
+   '(css-indent-offset 2)
+   '(scss-compile-at-save nil)))
+
+(add-to-list 'auto-mode-alist '("\\.scss\\'" . scss-mode))
+(add-hook 'scss-mode 'scss-mode-hooks)
